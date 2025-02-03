@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import {create, UploadOptions} from '@actions/artifact';
+import {DefaultArtifactClient, UploadArtifactOptions} from '@actions/artifact';
 import {findFilesToUpload} from './search';
 import {getInputs} from './input-helper';
 import {NoFileOptions} from './constants';
@@ -44,10 +44,8 @@ export async function uploadArtifact() {
         )
       }
 
-      const artifactClient = create()
-      const options: UploadOptions = {
-        continueOnError: false
-      }
+      const artifactClient = new DefaultArtifactClient()
+      const options: UploadArtifactOptions = {}
       if (inputs.retentionDays) {
         options.retentionDays = inputs.retentionDays
       }
@@ -59,17 +57,18 @@ export async function uploadArtifact() {
         options
       )
 
-      if (uploadResponse.failedItems.length > 0) {
+      if (uploadResponse.id === undefined) {
         core.setFailed(
-          `An error was encountered when uploading ${uploadResponse.artifactName}. There were ${uploadResponse.failedItems.length} items that failed to upload.`
+          `An error was encountered when uploading ${inputs.artifactName}.`
         )
       } else {
         core.info(
-          `Artifact ${uploadResponse.artifactName} has been successfully uploaded!`
+          `Artifact ${inputs.artifactName} has been successfully uploaded! with id: ${uploadResponse.id}.`
         )
       }
+
     }
   } catch (err) {
-    core.setFailed(err.message)
+    core.error(err instanceof Error ? err.message : "Unknown error type")
   }
 }
