@@ -56,8 +56,17 @@ export async function uploadArtifact() {
         searchResult.rootDirectory,
         options
       )
-      
-      core.info(`Created artifact with id: ${uploadResponse.id} (bytes: ${uploadResponse.size}`)
+
+      if (uploadResponse.id === undefined) {
+        core.setFailed(
+          `An error was encountered when uploading ${uploadResponse.artifactName}. There were ${uploadResponse.failedItems.length} items that failed to upload.`
+        )
+      } else {
+        core.info(
+          `Artifact ${uploadResponse.artifactName} has been successfully uploaded! with id: ${uploadResponse.id}`
+        )
+      }
+
     }
   } catch (err) {
     core.error(err instanceof Error ? err.message : "Unknown error type")
