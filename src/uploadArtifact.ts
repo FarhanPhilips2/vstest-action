@@ -59,11 +59,11 @@ export async function uploadArtifact() {
 
       if (uploadResponse.id === undefined) {
         core.setFailed(
-          `An error was encountered when uploading ${uploadResponse.artifactName}. There were ${uploadResponse.failedItems.length} items that failed to upload.`
+          `An error was encountered when uploading ${inputs.artifactName}.`
         )
       } else {
         core.info(
-          `Artifact ${uploadResponse.artifactName} has been successfully uploaded! with id: ${uploadResponse.id}`
+          `Artifact ${inputs.artifactName} has been successfully uploaded! with id: ${uploadResponse.id}.`
         )
       }
 
