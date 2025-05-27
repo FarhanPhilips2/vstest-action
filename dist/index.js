@@ -108980,7 +108980,7 @@ function getTestAssemblies() {
             return searchResult.filesToUpload;
         }
         catch (err) {
-            core.error(err instanceof Error ? err.message : "Unknown error type");
+            core.setFailed(err instanceof Error ? err.message : "Unknown error type");
         }
         return [];
     });
@@ -109129,14 +109129,14 @@ function run() {
             yield exec.exec(`${vsTestPath} ${testFiles.join(' ')} ${args} /Logger:TRX`);
         }
         catch (err) {
-            core.error(err instanceof Error ? err.message : "Unknown error type");
+            core.setFailed(err instanceof Error ? err.message : "Unknown error type");
         }
         //Always attempt to upload test result artifact
         try {
             yield (0, uploadArtifact_1.uploadArtifact)();
         }
         catch (err) {
-            core.error(err instanceof Error ? err.message : "Unknown error type");
+            core.setFailed(err instanceof Error ? err.message : "Unknown error type");
         }
     });
 }
@@ -109491,7 +109491,7 @@ function uploadArtifact() {
             }
         }
         catch (err) {
-            core.error(err instanceof Error ? err.message : "Unknown error type");
+            core.setFailed(err instanceof Error ? err.message : "Unknown error type");
         }
     });
 }
