@@ -1,8 +1,8 @@
 import * as core from '@actions/core';
-import {DefaultArtifactClient, UploadArtifactOptions} from '@actions/artifact';
-import {findFilesToUpload} from './search';
-import {getInputs} from './input-helper';
-import {NoFileOptions} from './constants';
+import { DefaultArtifactClient, UploadArtifactOptions } from '@actions/artifact';
+import { findFilesToUpload } from './search';
+import { getInputs } from './input-helper';
+import { NoFileOptions } from './constants';
 
 export async function uploadArtifact() {
   try {
@@ -69,6 +69,6 @@ export async function uploadArtifact() {
 
     }
   } catch (err) {
-    core.error(err instanceof Error ? err.message : "Unknown error type")
+    core.setFailed(err instanceof Error ? err.message : "Unknown error type")
   }
 }
