@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import {findFilesToUpload} from './search';
+import { findFilesToUpload } from './search';
 
 export async function getTestAssemblies(): Promise<string[]> {
   try {
@@ -8,10 +8,10 @@ export async function getTestAssemblies(): Promise<string[]> {
 
     core.debug(`Pattern to search test assemblies: ${searchFolder + testAssembly}`)
     const searchResult = await findFilesToUpload(searchFolder + testAssembly)
-    
+
     return searchResult.filesToUpload
   } catch (err) {
-    core.error(err instanceof Error ? err.message : "Unknown error type")
+    core.setFailed(err instanceof Error ? err.message : "Unknown error type")
   }
   return []
 }
